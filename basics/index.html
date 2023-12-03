@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alpine basics</title>
+
+  <!-- 3.10.2 if any issues -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="app.js"></script>
+</head>
+<body 
+  style="display: flex; flex-direction: column; gap: 1rem;"
+>
+  <!-- x-data, x-text, x-html -->
+  <!-- <div x-data="{
+    name: 'Lucky',
+    msg: '<b>Woof</b>'
+  }"> 
+  <span x-text="name"></span>
+  <span x-html="msg"></span>
+  </div> -->
+
+  <!-- fetch data (remember to add x-data even if empty) -->
+  <!-- <div
+    x-data
+    x-text="await (await fetch('https://jsonplaceholder.typicode.com/todos/1')).text()"
+  ></div> -->
+  
+  <!-- x-data with methods -->
+  <!-- <div 
+    x-data="{
+      msg: 'Click to change',
+      change() {
+        this.msg = 'Changed msg'
+      }
+    }"
+  >
+    <span x-text="msg" @click="change"></span>
+  </div> -->
+
+  <!-- Re-usable data (dropdown is initialized in app.js) -->
+  <!-- <div
+    x-data="dropdown"
+  >
+    <button @click="toggle">Open/Close</button>
+    <div x-show="open">...Content</div>
+  </div>
+
+  <div
+    x-data="dropdown"
+  >
+    <button @click="toggle">Open/Close</button>
+    <div x-show="open">...Content</div>
+  </div> -->
+
+
+  <!-- Data-less components (incase only want reactivity and not data) -->
+  <!-- <div x-data>
+    <div @click="alert('clicked')">Click me</div>
+  </div> -->
+
+  <!-- Data coming from alpine store (alpine store initialized in app.js) -->
+  <!-- <div x-data>
+    <span x-text="$store.currentUser.username"></span>
+    <span x-text="$store.currentUser.posts"></span>
+  </div> -->
+
+  <!-- x-init -->
+  <!-- <div x-init="console.log('init')" ></div>
+
+  <div
+    x-data="{
+      init() {
+        console.log('I get called when alpine js initializes')
+      }
+    }"
+  ></div>
+
+  <div
+    x-data="{ post: {} }"
+    x-init="post = await (await fetch('https://jsonplaceholder.typicode.com/todos/1')).json()"
+  >
+    <span x-text="post.title"></span>
+  </div> -->
+
+  <!-- Scoping in alpine (just like JavaScript scoping) -->
+  <!-- <div
+    x-data="{
+      name: 'Lucky',
+      age: 10,
+      gender: 'male'
+    }"
+  >
+    <div 
+      x-data="{
+        name: 'Santa',
+        age: 30
+      }"
+    >
+      <div x-data="{
+        name: 'I win'
+      }">
+        <span x-text="name"></span>
+        <span x-text="age"></span>
+        <span x-text="gender"></span>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Getters & Setters -->
+  <!-- <div
+    x-data="{
+      open: false,
+      get isOpen() {
+        return this.open
+      },
+      set isOpen(open) {
+        this.open = open
+      },
+      toggle() {
+        this.isOpen = !this.isOpen
+      }
+    }"
+  >
+    <button @click="toggle">Open/Close</button>
+    <div x-show="isOpen">
+      content...
+    </div>
+  </div> -->
+
+
+  <!-- x-show & x-transition -->
+  <!-- <div
+    x-data="{
+      open: false,
+      toggle() {
+        this.open = !this.open
+      }
+    }"
+  >
+    <button @click="toggle">Open/Close</button>
+    <div x-show="open" 
+      x-transition
+      x-transition:enter="opacity-0" 
+      x-transition:enter-end="opacity-1" 
+    >
+      content...
+    </div>
+  </div> -->
+
+
+  <!-- x-if (Elements are added/removed from the DOM) -->
+  <!-- <div
+    x-data="{
+      open: false,
+      toggle() {
+        this.open = !this.open
+      }
+    }"
+  >
+    <button @click="toggle">Open/Close</button>
+    <template x-if="open">
+      <div>
+        content...
+      </div>
+    </template>
+  </div> -->
+
+
+  <!-- x-for looping -->
+  <!-- <div
+    x-data="{
+      posts: [{id: 1, title: 'first post'}, {id: 2, title: 'second post'}]
+    }"
+  >
+    <template x-for="post in posts" :key="post.id">
+      <h4 x-text="post.title"></h4>
+    </template>
+  </div> -->
+
+  <!-- x-for over a range -->
+  <!-- <div x-data>
+    <template x-for="num in 5">
+      <p x-text="num"></p>
+    </template>
+  </div> -->
+
+
+  <!-- x-bind:class -->
+  <div x-data="{ clicked: false }" >
+    <!-- x-bind is optional x-bind:class is the same as :class -->
+    <!-- <button x-bind:class="clicked && 'blue'" @click="clicked = true">Click me</button> -->
+    <!-- <button :class="clicked && 'blue'" @click="clicked = true">Click me</button> -->
+    <button :class="{blue: clicked}" @click="clicked = true">Click me</button>
+  </div>
+  <style>
+    .blue {
+      background-color: blue;
+    }
+  </style>
+
+  <!-- x-bind:style -->
+  <!-- <div x-data="{ clicked: false }" >
+    <button :style="{backgroundColor: clicked && 'red'}" @click="clicked = !clicked">Click me</button>
+  </div> -->
+
+  <!-- x-bind:id (You can use bind with any attribute you would like) -->
+  <!-- <div x-data="{ id: '' }">
+    <button :id="id" @click="id = Math.round(Math.random() * 100)">Random ID</button>
+  </div> -->
+
+
+  <!-- iterate over colors and display 40x40 px boxes with that background color -->
+  <!-- <div x-data="{ colors: ['red', 'green', 'blue'] }">
+    <template x-for="c in colors" :key="c">
+      <div style="display: inline-block; width: 40px; height: 40px; margin: 1px;" :style="{backgroundColor: c}"></div>
+    </template>
+  </div> -->
+
+
+
+  <!-- x-on -->
+  <div x-data @edit="console.log('Edit was dispatched')">
+    <!-- x-on can be omitted -->
+    <!-- <button x-on:click="console.log('clicked')">clicked</button> -->
+    <button @click="console.log('clicked')">clicked</button>
+
+    <input type="text" placeholder="keyup" @keyup="console.log('keyup')" />
+    <input type="text" placeholder="keyup once" @keyup.once="console.log('keyup only once')" />
+    <input type="text" placeholder="keyup debounce" @keyup.debounce="console.log('keyup debounce')" />
+    <input type="text" placeholder="keyup debounce 1 sec" @keyup.debounce.1000="console.log('keyup debounce after 1 second')" />
+
+    <!-- setup custom event -->
+    <button @click="$dispatch('edit')">Edit</button>
+  </div>
+
+
+  <!-- x-model 2 way data binding -->
+  <!-- <div x-data="{ keyword: null }">
+    <input type="text" x-model="keyword" />
+    <span x-text="keyword"></span>
+  </div> -->
+
+  <!-- Challenge
+    Create a button and 3 inputs
+    1st input -> value should become buttons text
+    2nd input -> value for background color of button
+    3rd input -> value to become button id
+  -->
+  <!-- <div x-data="{color: '', id: '', text: ''}">
+    <button :id="id" x-text="text" :style="{backgroundColor: color}"></button>
+    <input type="text" placeholder="button text" x-model="text" />
+    <input type="text" placeholder="button color" x-model="color" />
+    <input type="text" placeholder="button id" x-model="id" />
+  </div> -->
+
+
+  <!-- x-effect works just like useEffect where the values used within becomes dependencies -->
+  <!-- <div x-data="{ name: 'Lucky', msg: null }">
+    <div x-effect="console.log(name)"></div>
+    <p x-effect="msg = 'Hello ' + name" ></p>
+    <p x-text="msg"></p>
+    <button @click="name = 'Santa'">Change name</button>
+  </div> -->
+
+
+  <!-- x-ignore -->
+  <!-- <div x-data="{ name: 'Lucky' }"> -->
+    <!-- Alpine will ignore the div and its children so name will not be displayed -->
+    <!-- <div x-ignore>
+      <p x-text="name"></p>
+    </div>
+  </div> -->
+
+
+
+  <!-- x-ref -->
+  <!-- <div x-data>
+    <input x-ref="inputRef" type="text" placeholder="input with ref" />
+    <button @click="$refs.inputRef.value = 'Hallo from button'">Link to Ref</button>
+  </div> -->
+
+
+  <!-- x-cloak can prevent fliggering on e.g. a dropdown element (Remember the needed styles)-->
+  <!-- <div
+    x-data="dropdown"
+  >
+    <button @click="toggle">Open/Close</button>
+    <div x-show="open" x-cloak>...Content</div>
+  </div>
+  <style>
+    [x-cloak] {
+      display: none;
+    }
+  </style> -->
+
+
+  <!-- x-teleport -> teleports an element to the specified css selector -->
+  <!-- <div x-data>
+    <p>Some long content</p>
+    <div x-data="{ modal: false }">
+      <button @click="modal = !modal">Modal</button>
+      <template x-teleport="body">
+        <div x-show="modal">Modal content...</div>
+      </template>
+    </div>
+    <p>More content</p>
+  </div> -->
+
+
+  <!-- Magic Properties -->
+
+  <!-- $el -->
+  <!-- <div x-data x-init="console.log('Init', $el)">
+    <button @click="console.log($el)">Button</button>
+  </div> -->
+
+
+  <!-- already tried $refs & $store -->
+
+
+  <!-- $watch -->
+  <!-- <div x-data="{ modal: false }" x-init="$watch('modal', (value, old) => console.log('new value: ', value, ' and old value: ', old))">
+    <button @click="modal = !modal">Watch</button>
+  </div> -->
+
+
+  <!-- $dispatch already used -->
+
+
+  <!-- $nextTick allows you to only execute a given expression AFTER Alpine has made its reactive DOM updates -->
+  <!-- <div x-data="{ name: 'Lucky' }">
+    <button @click="name = 'Santa'; console.log($refs.p.innerText); $nextTick(() => { console.log($refs.p.innerText) });">nextTick</button>
+    <p x-ref="p" x-text="name"></p>
+  </div> -->
+
+  
+
+  <!-- $root used to retrieve the root element of any Alpine component-->
+  <!-- <div x-data data-message="Hello World!">
+    <div>
+      <div>
+        <button @click="alert($root.dataset.message)">Say Hi</button>
+      </div>
+    </div>
+  </div> -->
+
+
+
+  <!-- $data an actual object that encapsulates all scope -->
+  <!-- <div x-data="{ greeting: 'Hello' }">
+    <div x-data="{ name: 'Caleb' }">
+        <button @click="sayHello($data)">Say Hello</button>
+    </div>
+  </div>
+  <script>
+      function sayHello({ greeting, name }) {
+          alert(greeting + ' ' + name + '!')
+      }
+  </script> -->
+
+  <!-- $id -->
+  <!-- <div x-data x-id="['text-input']"> -->
+    <!-- <label :for="$id('text-input')">Username</label> -->
+    <!-- for="text-input-2" -->
+    <!-- <input type="text" :id="$id('text-input')"> -->
+    <!-- id="text-input-2" -->
+  <!-- </div> -->
+
+</body> 
+</html>
