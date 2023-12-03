@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal component</title>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-700 h-screen pt-20">
+  <style>
+    [x-cloak] {
+      display: none;
+    }
+  </style>
+
+  <div 
+    class="relative ml-10" 
+    x-data="{ showModal: false }"
+  >
+    <button 
+      class="flex items-center justify-center gap-1 bg-blue-200 py-2 px-4 rounded-md shadow-md hover:opacity-90"
+      @click="showModal = !showModal"
+    >
+    Show Modal
+    </button>
+    
+    <template x-teleport="body">
+      <div x-show="showModal" class="fixed inset-0 bg-black/50 grid place-items-center z-10" x-cloak>
+        <div 
+          class="flex flex-col bg-white w-[90%] max-w-[40rem] h-40 shadow-md rounded-md overflow-hidden" 
+          @click.outside="showModal = false"
+          x-show="showModal"
+          x-transition
+        >
+          <div class="text-lg font-bold flex justify-between items-center px-4 py-2 bg-gray-200">
+            <p>Modal Title</p>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke-width="1.5" 
+              stroke="currentColor" 
+              class="w-5 h-5 cursor-pointer hover:bg-gray-300"
+              @click="showModal = false"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>          
+          </div>
+          <div class="text-sm py-2 px-4 flex-grow">
+            <p>
+              Modal Content
+            </p>
+          </div>
+          <div class="flex justify-end items-center gap-2 px-4 py-1.5 bg-gray-200">
+            <button class="py-1 px-3 bg-green-300 rounded-md hover:bg-green-400" @click="showModal = false">Accept</button>
+            <button class="py-1 px-3 bg-gray-300 rounded-md hover:bg-gray-400/70" @click="showModal = false">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+
+</body>
+</html>
