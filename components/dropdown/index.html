@@ -12,11 +12,11 @@
 <body class="bg-gray-700 h-[100vh] flex justify-start">
   <div 
     class="m-20 relative" 
-    x-data="{ showModal: false }"
+    x-data="{ isOpen: false }"
   >
     <button 
       class="flex items-center justify-center gap-1 bg-blue-200 py-2 px-4 rounded-md shadow-md hover:opacity-90"
-      @click="showModal = !showModal"
+      @click="isOpen = !isOpen"
     >
     Toggle
     <svg 
@@ -26,16 +26,16 @@
       stroke-width="1.5" 
       stroke="currentColor" 
       class="w-4 h-4 transition-all mt-0.5"
-      :class="{ 'rotate-90': showModal }"
+      :class="{ 'rotate-90': isOpen }"
     >
       <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
     </svg>
     </button>
     <div 
       class="absolute w-44 rounded-md bg-white mt-1 py-2 shadow-md" 
-      x-show="showModal" 
+      x-show="isOpen" 
       x-transition 
-      @click.outside="showModal = false"
+      @click.outside="isOpen = false"
     >
       <ul>
         <p class="flex items-center gap-1 hover:bg-gray-200 cursor-pointer px-2 py-1">
