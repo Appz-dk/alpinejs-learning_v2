@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal component</title>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    const notification = () => {
+      return {
+        visible: true,
+        interval: null,
+        timeout: 4000,
+        widthPercent: 100,
+
+        onClose() {
+          this.visible = false
+          clearInterval(this.interval)
+        },
+
+        init() {
+          setTimeout(() => {
+            this.visible = false
+          }, this.timeout)
+
+          const startDate = Date.now()
+          const futureDate = Date.now() + this.timeout
+          
+          this.interval = setInterval(() => {
+            const date = Date.now()
+            this.widthPercent = 100 - (date - startDate) * 100 / (futureDate - startDate)
+
+            if (this.widthPercent === 0) clearInterval(this.interval)
+          }, 30);
+        },
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-700 h-screen grid place-items-center">
+  <div class="relative text-white bg-green-600 w-[90%] max-w-[35rem] p-4 rounded-md shadow-md" x-data="notification()" x-show="visible">
+    <div class="font-semibold mb-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+    <div class="text-sm">Adipisicing elit. Esse omnis fugiat consequuntur id veritatis neque aspernatur distinctio voluptatibus totam est incidunt explicabo, asperiores, eius, ipsa sit possimus voluptatem aliquid nam.</div>
+    <button class="absolute top-2 right-2" @click="onClose">
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        fill="none" 
+        viewBox="0 0 24 24" stroke-
+        width="1.5" 
+        stroke="currentColor" 
+        class="w-5 h-5 text-black hover:bg-black/20 rounded-md transition-colors"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>    
+    </button>
+    <!-- Progress bar -->
+    <div>
+      <div 
+        class="absolute bottom-0 left-0 right-0 h-[8px] bg-black/20"
+        :style="{'width': `${widthPercent}%`}"
+      ></div>
+    </div>
+  </div>
+</body>
+</html>
