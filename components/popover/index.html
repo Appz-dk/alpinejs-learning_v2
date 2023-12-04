@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal component</title>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    const popover = () => {
+      return {
+        title: "Popver Title",
+        text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum voluptatem similique delectus ex pariatur corporis reiciendis.",
+        showPopover: false,
+        popoverWidth: 200,
+
+        onToggle() {
+          this.showPopover = !this.showPopover
+        },
+
+        // Just for fun -> can also be done in the init function
+        // or simply do it in the styles.
+        offsetPopover() {
+          const btnWidth = this.$refs.btn.clientWidth
+          const offsetVal = (this.popoverWidth - btnWidth) / 2
+          this.$refs.popover.style.transform = `translateX(-${offsetVal}px)`
+        }
+        
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-700 h-screen grid place-items-center">
+  <div class="relative" x-data="popover()">
+
+    <button x-ref="btn" class="bg-green-500 py-2 px-4 rounded-md shadow-md" @click="onToggle">Popover</button>
+
+    <div x-ref="popover" x-effect="offsetPopover" class="absolute bottom-[100%] mb-1 bg-white p-2 rounded-md" :style="{'width': `${popoverWidth}px`}" x-show="showPopover" @click.outside="showPopover = false">
+      <div class="font-semibold pb-1" x-text="title"></div>
+      <div class="text-sm" x-text="text"></div>
+    </div>
+
+  </div>
+</body>
+</html>
