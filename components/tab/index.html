@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal component</title>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+
+  <script>
+    // Would not let me just have the array inside of the x-data object
+    let content = [
+    { tabName: 'Home', text: 'Test Description for Home tab' },
+    { tabName: 'Users', text: 'Test Description for Users tab' },
+    { tabName: 'Settings', text: 'Test Description for Settings tab' },
+    ];
+  </script>
+</head>
+
+<body class="bg-gray-700 h-screen pt-20">
+  <div 
+    class="ml-10 flex flex-col"
+    x-data="{
+      tabs: content,
+      activeTab: 'Home'
+    }" 
+  >
+    <div class="flex">
+      <template x-for="tab in tabs" :key="tab.tabName">
+        <div class="bg-white font-medium py-2 px-3 border cursor-pointer hover:bg-gray-200" :class="{'text-blue-500 border-blue-200': activeTab === tab.tabName}" @click="activeTab = tab.tabName">
+          <span x-text="tab.tabName"></span>
+        </div>
+      </template>
+    </div>
+
+    <template x-for="tab in tabs">
+      <div 
+        class="bg-white p-4 max-w-[20rem]" 
+        x-show="activeTab === tab.tabName" 
+      >
+        <p x-text="tab.text"></p>
+      </div>
+    </template>
+
+    <!-- <div 
+      class="bg-white p-4 max-w-[20rem]" 
+      x-show="activeTab === tabs[0]" 
+    >
+      <p>This is the home tab</p>
+    </div>
+    <div 
+      class="bg-white p-4 max-w-[20rem]" 
+      x-show="activeTab === tabs[1]" 
+    >
+      <p>This is the users tab</p>
+    </div>
+    <div 
+      class="bg-white p-4 max-w-[20rem]" 
+      x-show="activeTab === tabs[2]" 
+    >
+      <p>This is the settings tab</p>
+    </div> -->
+
+  </div>
+</body>
+</html>
+
